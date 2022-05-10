@@ -75,6 +75,13 @@ RSpec.describe LinkedinUrlValue do
         expect([first_cast, second_cast].uniq).to have_attributes(size: 1)
       end
 
+      it "regular values can be compared against strings" do
+        first_cast = cast(regular_value)
+        expect(first_cast).to eq(regular_value)
+        expect(first_cast).to eql(regular_value.upcase)
+        expect([first_cast, regular_value].uniq).to have_attributes(size: 2)
+      end
+
       it "regular values can be compared against blank" do
         first_cast = cast(regular_value)
         second_cast = cast(blank_value)
@@ -142,6 +149,15 @@ RSpec.describe LinkedinUrlValue do
       value = cast("http://www.linkedin.com/in/example/")
       expect(value.to_s).to eq("https://www.linkedin.com/in/example")
       expect(value.to_str).to eq("https://www.linkedin.com/in/example")
+      expect(value).to be_present
+      expect(value).to be_regular
+      expect(value).not_to be_exceptional
+    end
+
+    pending "encodes utf characters" do
+      value = cast("http://www.linkedin.com/in/exömple/")
+      expect(value.to_s).to eq("https://www.linkedin.com/in/ex%C3%B6mple")
+      expect(value.to_str).to eq("https://www.linkedin.com/in/ex%C3%B6mple")
       expect(value).to be_present
       expect(value).to be_regular
       expect(value).not_to be_exceptional

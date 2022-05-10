@@ -13,13 +13,13 @@ module LinkedinUrlValue
     include Comparable
 
     def initialize(val)
-      @raw_value = val&.downcase
+      @raw_value = val
     end
 
     def <=>(other)
       return to_str <=> other.to_s if other.nil?
 
-      to_str <=> other.to_str
+      to_str <=> LinkedinUrlValue.cast(other).to_str
     end
 
     def eql?(other)
@@ -93,8 +93,7 @@ module LinkedinUrlValue
   def self.clean_url(url)
     url = "https://www.#{url}" if url.to_str.start_with?("linkedin.com")
 
-    url = url.to_s.downcase
-             .gsub("http://", "https://")
+    url = url.to_s.downcase.gsub("http://", "https://")
              .gsub(/\w+\.linkedin/, "www.linkedin")
              .gsub("https://linkedin.com", "https://www.linkedin.com")
              .chomp("/")
