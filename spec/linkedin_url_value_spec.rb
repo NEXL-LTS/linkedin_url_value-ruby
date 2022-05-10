@@ -45,6 +45,13 @@ RSpec.describe LinkedinUrlValue do
       it { is_expected.to be_exceptional }
       it { is_expected.not_to be_blank }
 
+      it "returns exceptional if only path" do
+        record = SimpleModel.new
+        subject.exceptional_errors(record.errors, :email, {})
+        expect(record.errors.full_messages)
+          .to contain_exactly("Email has a invalid value of #{exceptional_value}")
+      end
+
       it "blank has same API as regular" do
         missing_methods = cast(regular_value).public_methods - subject.public_methods
         expect(missing_methods).to be_blank

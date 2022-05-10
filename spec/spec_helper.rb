@@ -2,6 +2,13 @@
 
 require "linkedin_url_value"
 
+require "active_model"
+class SimpleModel
+  include ActiveModel::Model
+
+  attr_accessor :name
+end
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"

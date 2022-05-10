@@ -51,11 +51,26 @@ module LinkedinUrlValue
     end
   end
 
-  class Exceptional < RailsValues::ExceptionalValue
+  class Exceptional
     include Base
+
+    attr_reader :reason
+
+    def initialize(raw_value, reason = "has a invalid value of #{raw_value}")
+      @raw_value = raw_value
+      @reason = reason
+    end
 
     def exceptional?
       true
+    end
+
+    def regular?
+      false
+    end
+
+    def exceptional_errors(errors, attribute, _options = nil)
+      errors.add(attribute, @reason)
     end
   end
 
