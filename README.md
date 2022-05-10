@@ -13,9 +13,11 @@ gem "rails_values", github: "NEXL-LTS/rails_values", branch: "main"
 
 ## Usage
 
+```ruby
 class Person < ApplicationRecord
   attribute :linkedin_url, :rv_linkedin_url_value
 end
+```
 
 ## Development
 
