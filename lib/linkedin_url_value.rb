@@ -3,11 +3,12 @@
 require "active_support"
 require "active_model"
 require "rails_values/whole_value_concern"
+require "rails_values/exceptional_value"
 
 module LinkedinUrlValue
   class Error < StandardError; end
 
-  class Base
+  module Base
     include RailsValues::WholeValueConcern
     include Comparable
 
@@ -36,13 +37,11 @@ module LinkedinUrlValue
     def to_s
       to_str
     end
-
-    def inspect
-      "#<#{self.class.name} val:#{@raw_value} id:#{object_id}>"
-    end
   end
 
-  class AsBlank < Base
+  class AsBlank
+    include Base
+
     def blank?
       true
     end
@@ -52,13 +51,16 @@ module LinkedinUrlValue
     end
   end
 
-  class Exceptional < Base
+  class Exceptional < RailsValues::ExceptionalValue
+    include Base
+
     def exceptional?
       true
     end
   end
 
-  class Regular < Base
+  class Regular
+    include Base
   end
 
   def self.cast(val)
