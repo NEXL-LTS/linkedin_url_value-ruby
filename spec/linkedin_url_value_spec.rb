@@ -154,10 +154,10 @@ RSpec.describe LinkedinUrlValue do
       expect(value).not_to be_exceptional
     end
 
-    pending "encodes utf characters" do
-      value = cast("http://www.linkedin.com/in/exömple/")
-      expect(value.to_s).to eq("https://www.linkedin.com/in/ex%C3%B6mple")
-      expect(value.to_str).to eq("https://www.linkedin.com/in/ex%C3%B6mple")
+    it "encodes utf-8 characters" do
+      value = cast("http://www.linkedin.com/in/exömplá/")
+      expect(value.to_s).to eq("https://www.linkedin.com/in/ex%C3%B6mpl%C3%A1")
+      expect(value.to_str).to eq("https://www.linkedin.com/in/ex%C3%B6mpl%C3%A1")
       expect(value).to be_present
       expect(value).to be_regular
       expect(value).not_to be_exceptional

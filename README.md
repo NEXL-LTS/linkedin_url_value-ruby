@@ -1,6 +1,8 @@
 # LinkedinUrlValue
 
 Rails value to Work with use Linkedin profile urls.
+* handles various formats and converts them all to a standard format of `https://www.linkedin.com/in/<username>`
+* auto encodes utf-8 characters
 
 ## Installation
 
@@ -17,13 +19,15 @@ gem "rails_values", github: "NEXL-LTS/rails_values", branch: "main"
 class Person < ApplicationRecord
   attribute :linkedin_url, :rv_linkedin_url_value
 end
+
+person = Person.new
+person.linkedin_url = "linkedin.com/in/example"
+puts person.linkedin_url.to_str # => "https://www.linkedin.com/in/example"
 ```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 ## Contributing
 
