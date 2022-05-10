@@ -93,7 +93,8 @@ module LinkedinUrlValue
   def self.clean_url(url)
     url = "https://www.#{url}" if url.to_str.start_with?("linkedin.com")
 
-    url = url.to_s
+    url = url.to_s.downcase
+             .gsub("http://", "https://")
              .gsub(/\w+\.linkedin/, "www.linkedin")
              .gsub("https://linkedin.com", "https://www.linkedin.com")
              .chomp("/")

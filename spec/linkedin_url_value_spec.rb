@@ -138,6 +138,15 @@ RSpec.describe LinkedinUrlValue do
       expect(value).to be_exceptional
     end
 
+    it "changes to https" do
+      value = cast("http://www.linkedin.com/in/example/")
+      expect(value.to_s).to eq("https://www.linkedin.com/in/example")
+      expect(value.to_str).to eq("https://www.linkedin.com/in/example")
+      expect(value).to be_present
+      expect(value).to be_regular
+      expect(value).not_to be_exceptional
+    end
+
     it "removes trailing /" do
       value = cast("https://www.linkedin.com/in/example/")
       expect(value.to_s).to eq("https://www.linkedin.com/in/example")
