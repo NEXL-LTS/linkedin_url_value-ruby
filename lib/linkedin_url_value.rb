@@ -62,6 +62,7 @@ module LinkedinUrlValue
   end
 
   def self.cast(val)
+    return val if val.is_a?(Base)
     return AsBlank.new(val) if val.blank?
 
     cleaned_url = clean_url(val)

@@ -104,6 +104,33 @@ RSpec.describe LinkedinUrlValue do
       expect(value).not_to be_exceptional
     end
 
+    it "works if casted multiple times" do
+      value = cast(cast("https://www.linkedin.com/in/example"))
+      expect(value.to_s).to eq("https://www.linkedin.com/in/example")
+      expect(value.to_str).to eq("https://www.linkedin.com/in/example")
+      expect(value).to be_present
+      expect(value).to be_regular
+      expect(value).not_to be_exceptional
+    end
+
+    it "works if blank casted multiple times" do
+      value = cast(cast(nil))
+      expect(value.to_s).to eq("")
+      expect(value.to_str).to eq("")
+      expect(value).to be_blank
+      expect(value).not_to be_regular
+      expect(value).not_to be_exceptional
+    end
+
+    it "works if exceptional value casted multiple times" do
+      value = cast(cast("{}"))
+      expect(value.to_s).to eq("{}")
+      expect(value.to_str).to eq("{}")
+      expect(value).not_to be_blank
+      expect(value).not_to be_regular
+      expect(value).to be_exceptional
+    end
+
     it "removes trailing /" do
       value = cast("https://www.linkedin.com/in/example/")
       expect(value.to_s).to eq("https://www.linkedin.com/in/example")
