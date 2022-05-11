@@ -90,12 +90,6 @@ module LinkedinUrlValue
     Exceptional.new(val)
   end
 
-  ENCODE_CHARS = "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮį\
-  İıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹ\
-  źŻżŽž´".chars.to_h do |c|
-    [c, URI.encode_www_form_component(c)]
-  end
-
   def self.clean_url(url)
     url = "https://www.#{url}" if url.to_str.start_with?("linkedin.com")
 
@@ -104,12 +98,21 @@ module LinkedinUrlValue
              .gsub("https://linkedin.com", "https://www.linkedin.com")
              .chomp("/")
 
-    ENCODE_CHARS.map { |k, v| url.gsub!(k, v) }
+    return url unless url.to_str.start_with?("https://www.linkedin.com/in/")
 
-    uri = URI(url)
+    uri = URI(safe_encode(url))
     uri.query = nil
     uri.fragment = nil
     uri.to_s
+  end
+
+  def self.safe_encode(url)
+    path = url.gsub("https://www.linkedin.com/in/", "")
+    path = path.split("/").map { |p| URI.encode_www_form_component(p) }.join("/")
+    ["?", "=", "#"].each do |c|
+      path = path.gsub(URI.encode_www_form_component(c), c)
+    end
+    "https://www.linkedin.com/in/#{path}"
   end
 end
 
