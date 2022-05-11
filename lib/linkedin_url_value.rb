@@ -103,13 +103,13 @@ module LinkedinUrlValue
     uri = URI(safe_encode(url))
     uri.query = nil
     uri.fragment = nil
-    uri.to_s
+    uri.to_s.downcase
   end
 
   def self.safe_encode(url)
     path = url.gsub("https://www.linkedin.com/in/", "")
     path = path.split("/").map { |p| URI.encode_www_form_component(p) }.join("/")
-    ["?", "=", "#"].each do |c|
+    ["?", "=", "#", "%"].each do |c|
       path = path.gsub(URI.encode_www_form_component(c), c)
     end
     "https://www.linkedin.com/in/#{path}"
