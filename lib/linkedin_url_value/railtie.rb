@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-unless defined?(ValueValidator)
-  require "rails_values/value_validator"
-  ValueValidator = RailsValues::ValueValidator
-end
+require "rails_values"
 
 module LinkedinUrlValue
   class Railtie < ::Rails::Railtie
