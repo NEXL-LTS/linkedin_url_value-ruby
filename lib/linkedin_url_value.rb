@@ -91,12 +91,9 @@ module LinkedinUrlValue
   end
 
   def self.clean_url(url)
-    url = "https://www.#{url}" if url.to_str.start_with?("linkedin.com")
+    url = prepend_correct_protocol(url.to_str)
 
-    url = url.to_s.downcase.gsub("http://", "https://")
-             .gsub(/\w+\.linkedin/, "www.linkedin")
-             .gsub("https://linkedin.com", "https://www.linkedin.com")
-             .chomp("/")
+    url = url.to_s.downcase.gsub(/\w+\.linkedin/, "www.linkedin").chomp("/")
 
     return url unless url.to_str.start_with?("https://www.linkedin.com/in/")
 
@@ -104,6 +101,15 @@ module LinkedinUrlValue
     uri.query = nil
     uri.fragment = nil
     uri.to_s.downcase
+  end
+
+  def self.prepend_correct_protocol(url)
+    url = "https://#{url}" if url.start_with?("www.linkedin.com")
+    url = "https://www.#{url}" if url.start_with?("linkedin.com")
+    url = "https://www.#{url}" if url.start_with?("linkedin.com")
+
+    url.gsub("http://", "https://")
+       .gsub("https://linkedin.com", "https://www.linkedin.com")
   end
 
   def self.safe_encode(url)
