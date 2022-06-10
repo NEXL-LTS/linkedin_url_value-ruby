@@ -83,7 +83,9 @@ module LinkedinUrlValue
     return AsBlank.new(val) if val.blank?
 
     cleaned_url = clean_url(val)
-    return Regular.new(cleaned_url) if cleaned_url.include?("https://www.linkedin.com/in/")
+    if cleaned_url.include?("https://www.linkedin.com/in/") && cleaned_url.count("/") == 4
+      return Regular.new(cleaned_url)
+    end
 
     Exceptional.new(val)
   rescue URI::InvalidURIError

@@ -244,6 +244,15 @@ RSpec.describe LinkedinUrlValue do
       expect(value).to be_exceptional
     end
 
+    it "exception if additional parts" do
+      value = cast("https://www.linkedin.com/in/example/additional")
+      expect(value.to_s).to eq("https://www.linkedin.com/in/example/additional")
+      expect(value.to_str).to eq("https://www.linkedin.com/in/example/additional")
+      expect(value).to be_present
+      expect(value).not_to be_regular
+      expect(value).to be_exceptional
+    end
+
     it "exceptional if not valid url" do
       value = cast("https://{}.linkedin.com/in/example")
       expect(value.to_s).to eq("https://{}.linkedin.com/in/example")
