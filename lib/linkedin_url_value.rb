@@ -83,9 +83,7 @@ module LinkedinUrlValue
     return AsBlank.new(val) if val.blank?
 
     cleaned_url = clean_url(val)
-    if cleaned_url.include?("https://www.linkedin.com/in/") && cleaned_url.count("/") == 4
-      return Regular.new(cleaned_url)
-    end
+    return Regular.new(cleaned_url) if cleaned_url.include?("https://www.linkedin.com/in/")
 
     Exceptional.new(val)
   rescue URI::InvalidURIError
@@ -116,7 +114,7 @@ module LinkedinUrlValue
 
   def self.safe_encode(url)
     path = url.gsub("https://www.linkedin.com/in/", "")
-    path = path.split("/").map { |p| URI.encode_www_form_component(p) }.join("/")
+    path = path.split("/").first(1).map { |p| URI.encode_www_form_component(p) }.join("/")
     ["?", "=", "#", "%"].each do |c|
       path = path.gsub(URI.encode_www_form_component(c), c)
     end
