@@ -78,6 +78,10 @@ module LinkedinUrlValue
     include Base
   end
 
+  def self.is?(val)
+    cast(val).regular?
+  end
+
   def self.cast(val)
     return val if val.is_a?(Base)
     return AsBlank.new(val) if val.blank?
