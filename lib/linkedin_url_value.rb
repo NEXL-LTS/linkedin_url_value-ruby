@@ -86,8 +86,9 @@ module LinkedinUrlValue
     return val if val.is_a?(Base)
     return AsBlank.new(val) if val.blank?
 
+    valid_format = valid_linkedin_format?(val)
     cleaned_url = clean_url(val)
-    return Regular.new(cleaned_url) if cleaned_url.include?("https://www.linkedin.com/in/")
+    return Regular.new(cleaned_url) if valid_format && cleaned_url.include?("https://www.linkedin.com/in/")
 
     Exceptional.new(val)
   rescue URI::InvalidURIError
@@ -123,6 +124,11 @@ module LinkedinUrlValue
       path = path.gsub(URI.encode_www_form_component(c), c)
     end
     "https://www.linkedin.com/in/#{path}"
+  end
+
+  def self.valid_linkedin_format?(linked_url)
+    !linked_url.match?(/\s/) &&
+      clean_url(linked_url).downcase.start_with?("https://www.linkedin.com")
   end
 end
 
