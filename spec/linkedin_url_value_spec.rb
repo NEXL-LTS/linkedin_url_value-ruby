@@ -109,7 +109,7 @@ RSpec.describe LinkedinUrlValue do
   end
 
   describe "Examples" do
-    it "works" do
+    it "works normally" do
       value = cast("https://www.linkedin.com/in/example")
       expect(value.to_s).to eq("https://www.linkedin.com/in/example")
       expect(value.to_str).to eq("https://www.linkedin.com/in/example")
@@ -257,6 +257,33 @@ RSpec.describe LinkedinUrlValue do
       value = cast("https://{}.linkedin.com/in/example")
       expect(value.to_s).to eq("https://{}.linkedin.com/in/example")
       expect(value.to_str).to eq("https://{}.linkedin.com/in/example")
+      expect(value).to be_present
+      expect(value).not_to be_regular
+      expect(value).to be_exceptional
+    end
+
+    it "exceptional if has spaces in begining" do
+      value = cast("linkedin linkedin.com/in/example")
+      expect(value.to_s).to eq("linkedin linkedin.com/in/example")
+      expect(value.to_str).to eq("linkedin linkedin.com/in/example")
+      expect(value).to be_present
+      expect(value).not_to be_regular
+      expect(value).to be_exceptional
+    end
+
+    it "exceptional if has spaces in end" do
+      value = cast("linkedin.com/in/example linkedin")
+      expect(value.to_s).to eq("linkedin.com/in/example linkedin")
+      expect(value.to_str).to eq("linkedin.com/in/example linkedin")
+      expect(value).to be_present
+      expect(value).not_to be_regular
+      expect(value).to be_exceptional
+    end
+
+    it "exceptional if starts invalid" do
+      value = cast("linkedlinkedin.com/in/example")
+      expect(value.to_s).to eq("linkedlinkedin.com/in/example")
+      expect(value.to_str).to eq("linkedlinkedin.com/in/example")
       expect(value).to be_present
       expect(value).not_to be_regular
       expect(value).to be_exceptional
