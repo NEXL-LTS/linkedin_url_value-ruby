@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "linkedin_url_value"
-  spec.version = "0.1.1"
+  spec.version = "0.2.0"
   spec.authors = ["Grant Petersen-Speelman"]
   spec.email = ["grant@nexl.io"]
 
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  spec.add_dependency "rails_values", ">= 1.0", "< 3.0"
+  spec.add_dependency "rails_values", ">= 1.1", "< 3.0"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
