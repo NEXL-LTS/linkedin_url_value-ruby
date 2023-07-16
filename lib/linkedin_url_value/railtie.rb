@@ -8,10 +8,8 @@ module LinkedinUrlValue
       require_relative "job_serializer"
       Rails.application.config.active_job.custom_serializers << JobSerializer
 
-      require "rails_values/simple_string_converter"
-      ActiveRecord::Type.register(:rv_linkedin_url_value) do
-        RailsValues::SimpleStringConverter.new(LinkedinUrlValue)
-      end
+      require_relative "active_model_converter"
+      ActiveRecord::Type.register(:rv_linkedin_url_value) { ActiveModelConverter.new }
     end
   end
 end
