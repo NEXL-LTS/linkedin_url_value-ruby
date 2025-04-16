@@ -137,4 +137,4 @@ module LinkedinUrlValue
   end
 end
 
-require_relative "linkedin_url_value/railtie" if defined?(Rails) && defined?(Rails::Railtie)
+require_relative "linkedin_url_value/railtie" if defined?(Rails::Railtie)
