@@ -107,7 +107,7 @@ RSpec.describe LinkedinUrlValue do
       end
 
       it "can be compared with other objects" do # rubocop:disable RSpec/NoExpectationExample
-        cast(regular_value).eql?(Object.new)
+        cast(cast(regular_value)).eql?(Object.new)
         cast(cast(blank_value)).eql?(Object.new)
         cast(cast(exceptional_value)).eql?(Object.new)
       end
