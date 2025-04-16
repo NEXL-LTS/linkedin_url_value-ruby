@@ -72,6 +72,10 @@ module LinkedinUrlValue
     def exceptional_errors(errors, attribute, _options = nil)
       errors.add(attribute, @reason)
     end
+
+    def to_str
+      @raw_value.to_s
+    end
   end
 
   class Regular
@@ -86,12 +90,13 @@ module LinkedinUrlValue
     return val if val.is_a?(Base)
     return AsBlank.new(val) if val.blank?
 
+    val = val.to_str
     valid_format = valid_linkedin_format?(val)
     cleaned_url = clean_url(val)
     return Regular.new(cleaned_url) if valid_format && cleaned_url.include?("https://www.linkedin.com/in/")
 
     Exceptional.new(val)
-  rescue URI::InvalidURIError
+  rescue URI::InvalidURIError, NoMethodError
     Exceptional.new(val)
   end
 
@@ -132,4 +137,4 @@ module LinkedinUrlValue
   end
 end
 
-require_relative "linkedin_url_value/railtie" if defined?(Rails) && defined?(Rails::Railtie)
+require_relative "linkedin_url_value/railtie" if defined?(Rails::Railtie)

@@ -105,6 +105,12 @@ RSpec.describe LinkedinUrlValue do
         expect(first_cast).not_to eql(second_cast)
         expect([first_cast, second_cast].uniq).to have_attributes(size: 2)
       end
+
+      it "can be compared with other objects" do # rubocop:disable RSpec/NoExpectationExample
+        cast(cast(regular_value)).eql?(Object.new)
+        cast(cast(blank_value)).eql?(Object.new)
+        cast(cast(exceptional_value)).eql?(Object.new)
+      end
     end
   end
 
