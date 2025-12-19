@@ -2,8 +2,12 @@
 
 module LinkedinUrlValue
   class JobSerializer < ActiveJob::Serializers::ObjectSerializer
+    def klass
+      LinkedinUrlValue::Base
+    end
+
     def serialize?(argument)
-      argument.is_a?(LinkedinUrlValue::Base)
+      argument.is_a?(klass)
     end
 
     def serialize(value)
