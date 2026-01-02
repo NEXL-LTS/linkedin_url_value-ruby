@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "linkedin_url_value"
-  spec.version = "0.2.2"
+  spec.version = "0.2.3"
   spec.authors = ["Grant Petersen-Speelman"]
   spec.email = ["grant@nexl.io"]
 
