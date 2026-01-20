@@ -7,7 +7,7 @@ module LinkedinUrlValue
     end
 
     def serialize?(argument)
-      argument.is_a?(klass)
+      argument.is_a?(LinkedinUrlValue::Base)
     end
 
     def serialize(value)
